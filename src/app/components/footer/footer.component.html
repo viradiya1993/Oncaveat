@@ -1,0 +1,45 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="e-box d-flex">
+          <div>
+            <span>Try Oncaveat today</span>
+            <input
+              type="text"
+              name="email"
+              class="e-input"
+              placeholder="Enter your email"
+              [(ngModel)]="email"
+              (keydown.enter)="onSubscribe()"
+            />
+          </div>
+          <button
+            class="r-button"
+            style="cursor:pointer;"
+            (click)="onSubscribe()"
+            [disabled]="email === '' || email === undefined"
+          >
+            Subscribe
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <ul>
+          <li><a [routerLink]="['/about']">About</a></li>
+          <li><a href="https://twitter.com/OnCaveat" target="_blank">Follow on twitter</a></li>
+          <li><a href="https://www.facebook.com/ONCAVEAT/?modal=admin_todo_tour" target="_blank">Like on Facebook</a></li>
+          <li><a [routerLink]="['/share']">Share with Friends</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12">
+        <span class="d-block text-center footer-terms">
+          By clicking Sign in, you agree to our <a [routerLink]="['/terms']">Terms</a><br />
+          and have read and acknowledge our <a [routerLink]="['/privacy_policy']">Privacy Statement.</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

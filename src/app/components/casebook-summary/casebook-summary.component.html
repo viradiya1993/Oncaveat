@@ -1,0 +1,358 @@
+<section class="dash-board new_changesUpdate">
+  <div class="dash-main">
+    <div class="menu cl-update" [class.active]="isSideMenuOpen">
+      <h2>casebook</h2>
+      <ul class="content mCustomScrollbar" id="content-6">
+        <li *ngFor="let hash of hashList;let i = index" [ngClass]="{'active': selectedIndex == i}"
+          class="main_menu_list_li" style="cursor: pointer;">
+          <a (click)="onTopicSelect(hash,i)" *ngIf="TopicEdit != hash.id">{{ hash.name }}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="title-top_update dash-wrapper new_changes" (clickOutside)="onClickedOutside($event)">
+      <div class="title">
+        <div class="search-top-mobile search-top-desktop">
+          <form>
+            <div class="input-group">
+              <div class="input-group-prepend huge-visible">
+                <div class="input-group-text" >
+                  <div class="toggle-bar-2 static-bar" id="openside" (click)="openSideMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+              <input type="text" [(ngModel)]="searchValue" value="searchValue" placeholder="Search within topic"
+                (keydown.enter)="search($event.target.value)" name="searchValue" class="form-control"
+                autocomplete="off">
+              <div class="input-group-prepend huge-visible">
+                <div class="input-group-text">
+                  <div class="userFont" routerLink='/my-account'>
+                    {{userName}}
+                  </div>
+                </div>
+              </div>
+              <div class="input-group-append" style="cursor: pointer;">
+                <button class="input-group-text" (click)="searchclick(searchValue)"
+                  [disabled]="searchValue === '' || searchValue  === undefined">
+                  <i aria-hidden="true" class="fa fa-search"></i>
+                </button>
+                <!-- <button class="btn btn-secondary" (click)="resetFilter()"  [disabled]="searchValue === '' || searchValue  === undefined">Reset</button> -->
+              </div>
+
+            </div>
+          </form>
+          <div class="breadCrumb breadcrumb d-none d-xl-flex">
+            <li class="breadcrumb-item">
+              <span><b *ngIf="hashTitle?.length <= 30">{{hashTitle}}</b></span>
+              <span><b *ngIf="hashTitle?.length > 30">{{getHashSubString()}}</b></span>
+            </li>
+            <li class="breadcrumb-item" *ngIf=breadcamp>
+              <!-- <span><b>{{subTopic}}</b></span> -->
+              <span><b *ngIf="subTopic?.length <= 30">{{subTopic}}</b></span>
+              <span><b *ngIf="subTopic?.length > 30">{{getSubTopicSubString()}}</b></span>
+            </li>
+            <li class="breadcrumb-item" *ngIf=breadcampsub>
+              <!-- <span><b>{{menuSubList}}</b></span> -->
+              <span><b *ngIf="menuSubList?.length <= 30">{{menuSubList}}</b></span>
+              <span><b *ngIf="menuSubList?.length > 30">{{getMenuSubListSubString()}}</b></span>
+            </li>
+          </div>
+        </div>
+        <div class="btn-wrap">
+          <a class="b-sm-button-blue" (click)="onAddCaseBook()"><span>ADD NEW</span></a>
+          <a class="b-sm-button-blue" routerLink="/caselaws"><span>Exit</span></a>
+        </div>
+        <div class="breadCrumb breadcrumb d-flex d-xl-none">
+          <li class="breadcrumb-item">
+            <span><b *ngIf="hashTitle?.length <= 30">{{hashTitle}}</b></span>
+            <span><b *ngIf="hashTitle?.length > 30">{{getHashSubString()}}</b></span>
+          </li>
+          <li class="breadcrumb-item" *ngIf=breadcamp>
+            <!-- <span><b>{{subTopic}}</b></span> -->
+            <span><b *ngIf="subTopic?.length <= 30">{{subTopic}}</b></span>
+            <span><b *ngIf="subTopic?.length > 30">{{getSubTopicSubString()}}</b></span>
+          </li>
+          <li class="breadcrumb-item" *ngIf=breadcampsub>
+            <!-- <span><b>{{menuSubList}}</b></span> -->
+            <span><b *ngIf="menuSubList?.length <= 30">{{menuSubList}}</b></span>
+            <span><b *ngIf="menuSubList?.length > 30">{{getMenuSubListSubString()}}</b></span>
+          </li>
+        </div>
+        <div class="toggle-bar-2 d-none" id="openside2">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="sub_topcs_static">
+      <div class="filters">
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header text-center">
+              <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                <h4 class="mb-0"><i aria-hidden="true" class="fa fa-sliders"></i> Filters</h4>
+              </a>
+            </div>
+            <div id="collapseOne" class="collapse" data-parent="#accordion">
+              <div class="card-body">
+                <ul class="list-unstyled mob-none d-flex align-items-center justify-content-between mb-4">
+                  <li>
+                    <div class="title-fillters">
+                      <h4 class="title-fill"><i class="fa fa-sliders" aria-hidden="true"></i> Filters</h4>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="title-fillters">
+                      <button class="b-sm-button-blue" (click)="clearFilter()">
+                        <span>Clear</span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+                <!-- Start of Filter code -->
+                <div class="sub_subNavigation">
+                  <div class="navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                      <li *ngFor="let sub of arryofsub" class="dropdown" style="cursor: pointer;">
+                        <span (click)="onSubTopic(sub,sub.sub_topic)"
+                          [ngClass]="{'breakWord': sub?.sub_topic?.length > 50}">{{sub.sub_topic}}</span>
+                        <a class="dropdown-toggle dropRightArrow" data-toggle="dropdown" style="cursor: pointer;"></a>
+                        <ul class="dropdown-menu">
+                          <li class="main-title d-flex" *ngFor="let newL of sub.user_sub_sub_topic">
+                            <a *ngIf="(menudisplaySubList || menuSubList == newL.name)"
+                              (click)="onSubSubTopic(newL.name,sub.sub_topic,sub.id)" class="pl-5"
+                              style="cursor: pointer;"
+                              [ngClass]="{'breakWord': newL?.name?.length > 50}">{{newL.name}}
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End of Filter code -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="dash-wrapper new_changes push-update">
+      <div class="no-data-found" *ngIf="!loader">
+        <div class="col-12" *ngIf="casebookList?.length == 0">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="r-details">
+                <h2> No matching results </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="loader">
+        <div class="load-more text-center">
+          <i class="fa fa-spin fa-spinner fa-3x"></i>
+          <h4 class="blue-zodiac">
+            loading...
+          </h4>
+        </div>
+      </ng-container>
+      <div class="inner_detail_update main_sidebar_list acc-list">
+        <div class="current_showing">
+          <div class="box-part">
+            <!-- <span *ngIf="casebookList.length != 0 && arraySublength > 0">
+              <ng-container *ngFor="let newL of getKeys(casebookList)">
+                <div class="box-moreInformation" *ngFor="let topic of casebookList[newL]"
+                  [style.display]="(!menuSubList || menuSubList == newL)?'block':'none'">
+                  <div class="single-border"
+                    [ngClass]="[topic?.judgment?.court_name  === 'Supreme Court' ? 'supremecourtb' : '',  topic?.judgment?.court_name  === 'Delhi High Court' ? 'highcourtcaseb' : '']">
+                  </div>
+                  <div class="sub-details">
+                    <div class="label-title">
+                      <div class="case-title">
+                        <div class="row align-items-center mb-2">
+                          <div class="col-md-8">
+                            <h5 *ngIf="topic?.judgment == null">
+                              <a style="color: black;">{{ topic.casebook_title }}</a>
+                            </h5>
+                            <h5 *ngIf="topic?.judgment != null">
+                              <a routerLink="/judegment-detail/{{topic.judgement_id}}" target="_blank"
+                                style="color: black;">{{ topic.casebook_title }}
+                              </a>
+                            </h5>
+                          </div>
+                          <div class="col-md-4 text-right edite_update">
+                            <ul class="list-inline">
+                              <li class="list-inline-item mb-2 mr-0 mb-md-0">
+                                <a href="javascript:void(0)">
+                                  <span class="edit" (click)="onCasebookDelete(topic)">
+                                    <i class="fa fa-trash" *ngIf="!topic.loader"></i>
+                                    <i class="fa fa-spin fa-spinner" *ngIf="topic.loader"></i>
+                                  </span>
+                                </a>
+                              </li>
+                              <li class="list-inline-item mr-0 ml-0 ml-sm-2 ml-0-320">
+                                <a href="javascript:void(0)" (click)="onEditSection(topic)"
+                                  *ngIf="subTopicEdit != topic.id">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="row m-0 mt-0 w-100">
+                            <div class="col-12">
+                              <div class="sub_case">
+                                <div *ngIf="topic?.judgment && topic?.judgment != null">
+                                  {{ topic?.judgment?.name }} | <span
+                                    class="judgeName">
+                                  </span>
+                                </div>
+
+                                <div *ngIf="topic?.judgment_title != null || topic?.judge_name != null">
+                                  {{ topic?.judgment_title }} <span *ngIf="topic?.judge_name != null"> | </span>
+                                  <span class="judgeName">
+                                    {{topic?.judge_name}}
+                                  </span>
+                                </div>
+
+                                <div *ngIf="topic?.judgment && topic?.judgment != null"
+                                  [ngClass]="topic?.judgment?.court_name  === 'Supreme Court' ? 'supremecourtcase' : 'highcourtcase'"
+                                  class="court_date mt-3">
+                                  <h5 style="font-size: 14px;">{{ topic?.judgment?.court_name }}</h5>
+                                  <div class="time">{{topic.judgment_date | date: "dd MMM y"}}</div>
+                                </div>
+
+                                <div>
+                                  <input type="text" class="form-control mt-2" [(ngModel)]="topic.casebook_title"
+                                    *ngIf="subTopicEdit == topic.id" />
+                                </div>
+
+                                <div>
+                                  <a class="b-sm-button-blue mt-2" (click)="onSaveSubTopic(topic)"
+                                    *ngIf="subTopicEdit == topic.id"><span>Save</span>
+                                  </a>
+                                  <a class="b-sm-button-blue ml-1 mt-2" (click)="onCancel(topic)"
+                                    *ngIf="subTopicEdit == topic.id  "><span>Cancel</span>
+                                  </a>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </span> -->
+
+            <!-- New code -->
+            <span>
+              <ng-container *ngFor="let newL of casebookList">
+                <div class="box-moreInformation"
+                  [style.display]="(!menuSubList || menuSubList == newL?.sub_topics || menuSubList == newL?.subtopics_list)?'block':'none'">
+                  <div class="single-border"
+                    [ngClass]="[newL?.judgment?.court_name  === 'Supreme Court' ? 'supremecourtb' : '',  newL?.judgment?.court_name  === 'Delhi High Court' ? 'highcourtcaseb' : '']">
+                  </div>
+                  <div class="sub-details">
+                    <div class="label-title">
+                      <div class="case-title">
+                        <div class="row align-items-center mb-2">
+                          <div class="col-md-8">
+                            <h5 *ngIf="newL?.judgment == null">
+                              <a style="color: black;" [ngClass]="{'textWrap': newL?.casebook_title?.length > 100}">{{
+                                newL.casebook_title }}</a>
+                            </h5>
+
+                            <h5 *ngIf="newL?.judgment != null">
+                              <a routerLink="/judegment-detail/{{newL.judgement_id}}" target="_blank"
+                                style="color: black;">{{
+                                newL.casebook_title }}
+                              </a>
+                            </h5>
+                          </div>
+                          <div class="col-md-4 text-right edite_update">
+                            <ul class="list-inline">
+                              <li class="list-inline-item mb-2 mr-0 mb-md-0">
+                                <a href="javascript:void(0)">
+                                  <span class="edit" (click)="onCasebookDelete(newL)">
+                                    <i class="fa fa-trash" *ngIf="!newL.loader"></i>
+                                    <i class="fa fa-spin fa-spinner" *ngIf="newL.loader"></i>
+                                  </span>
+                                </a>
+                              </li>
+                              <li class="list-inline-item mr-0 ml-0 ml-sm-2 ml-0-320">
+                                <a href="javascript:void(0)" (click)="onEditSection(newL)"
+                                  *ngIf="subTopicEdit != newL.id">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="row m-0 mt-0 w-100">
+                            <div class="col-12">
+                              <div class="sub_case">
+
+
+                                <div *ngIf="newL?.judgment && newL?.judgment != null">
+                                  {{ newL?.judgment?.name }}
+                                  <span class="linebreak"> | </span>
+                                  <span class="judgeName">{{newL?.judgment?.judge_name}}
+                                  </span>
+                                </div>
+
+                                <div *ngIf="newL?.judgment_title != null || newL?.judge_name != null"
+                                  [ngClass]="{'textWrap': newL?.judgment_title?.length > 100}">
+                                  {{ newL?.judgment_title }}
+                                  <span *ngIf="newL?.judge_name != null" class="linebreak"> | </span>
+                                  <span class="judgeName" [ngClass]="{'textWrap': newL?.judge_name?.length > 80}">
+                                    {{newL?.judge_name}}
+                                  </span>
+                                </div>
+
+
+
+                                <div *ngIf="newL?.judgment && newL?.judgment != null"
+                                  [ngClass]="newL?.judgment?.court_name  === 'Supreme Court' ? 'supremecourtcase' : 'highcourtcase'"
+                                  class="court_date mt-3">
+                                  <h5 style="font-size: 14px;">{{ newL?.judgment?.court_name }}</h5>
+                                  <div class="time">{{newL.judgment_date | date: "dd MMM y"}}</div>
+                                </div>
+
+                                <div>
+                                  <input type="text" class="form-control mt-2" [(ngModel)]="newL.casebook_title"
+                                    *ngIf="subTopicEdit == newL.id" />
+                                </div>
+
+                                <div>
+                                  <a class="b-sm-button-blue mt-2" (click)="onSaveSubTopic(newL)"
+                                    *ngIf="subTopicEdit == newL.id"><span>Save</span>
+                                  </a>
+                                  <a class="b-sm-button-blue ml-1 mt-2" (click)="onCancel(newL)"
+                                    *ngIf="subTopicEdit == newL.id  "><span>Cancel</span>
+                                  </a>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="m-over" id="overlay"></span>
+</section>

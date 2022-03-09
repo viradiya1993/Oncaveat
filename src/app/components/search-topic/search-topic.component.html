@@ -1,0 +1,453 @@
+<section class="p-t-55 list-calender-wise">
+  <div class="container">
+    <div class="d-block d-xl-none">
+      <div class="row" *ngIf="false">
+        <div class="col text-right">
+          <a class="mobile-searchbar-btn" (click)="onSearchIconClick()"><span class="fa fa-search"></span></a>
+        </div>
+      </div>
+      <div class="mobil-searchbar" *ngIf="commonService.isMobileSearchShow()">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="search-box">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" (input)="updateSearch($event)" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2" [(ngModel)]="searchData" (keydown.enter)="onSearchType()"
+                  placeholder="Search by exact phrase">
+                <div class="input-group-append">
+                  <button class="r-button" id="basic-addon2" (click)="onSearchType()"
+                    [disabled]="searchData ==='' || searchData  === undefined">Search</button>&nbsp;
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex calender-details">
+          <div class="col-sm-6 hastags-wrap">
+            <h2 class="mb-3">Search by Topics</h2>
+            <div class="hastags">
+              <ul>
+
+                <li style="cursor: pointer;" *ngFor="let hash of hashList"
+                  [ngClass]="{'active': topicId === hash?.slug}" (click)="onTopicSelect(hash?.slug,false)">
+                  <a>{{hash?.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <h5 class="text-center">Search Digest by Date</h5>
+            <div class="calender">
+              <p-calendar [(ngModel)]="date" [showButtonBar]="true" todayButtonStyleClass="d-none" [inline]="true"
+                (onSelect)="onDateChange($event)" (onClearClick)="clearDate($event)">
+              </p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-xl-8 custom-xl-9">
+        <div class="search-box ">
+          <div class="input-group mb-3 d-none d-xl-flex">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Search by exact phrase" (input)="updateSearch($event)"
+              aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="searchData"
+              (keydown.enter)="onSearchType()">
+            <div class="input-group-append">
+              <button class="input-group-text r-button" id="basic-addon2" style="cursor: pointer;"
+                (click)="onSearchType()" [disabled]="searchData ==='' || searchData  === undefined">Search
+              </button>&nbsp;
+
+            </div>
+          </div>
+          <!-- <span *ngIf=topicshow>
+            <h4 *ngIf="slugList.data.length > 0">"{{categoryList?.name}}"</h4>
+          </span> -->
+          <span *ngIf=topicshow>
+            <h4 *ngIf="slugList.data.length > 0">"{{categoryList}}"</h4>
+          </span>
+          <!-- <span *ngIf=searchshow>
+            <h4>"{{searchtypedata}}"</h4>
+          </span> -->
+        </div>
+
+        <div class="title d-flex justify-content-between" *ngIf="dataNotFound && !loader">
+          <h1 class="mb-5 h3 themeColor">No Matching Results</h1>
+        </div>
+        <ng-container *ngIf="loader">
+          <div class="load-more text-center">
+            <i class="fa fa-spin fa-spinner fa-3x"></i>
+            <h4 class="blue-zodiac">
+              loading...
+            </h4>
+          </div>
+        </ng-container>
+        <ng-container>
+          <ng-container *ngIf="!isSearchResults()">
+            <div class="d-block d-xl-flex" *ngFor="let slug of slugList?.data; let listIndex = index">
+              <div class="l-date">
+                <div class="date-day">
+                  <div class="row align-items-end">
+                    <div class="col-6 col-xl-2">
+                      <h6 class="m-gray text-left d-xl-none mb-1"><em>Case Digest</em></h6>
+                    </div>
+                    <div class="col-6 col-xl-10">
+                      <h6 class="m-gray d-none d-xl-block"><em>Case Digest</em></h6>
+                      <span>
+                        <span class="date">
+                          <!-- {{slug?.created_date|date:'d'}}/ -->
+                          {{slug?.created_date|date:'dd/MM/yyyy'}}
+                        </span>
+                        <span>
+                          <!-- {{slug?.created_date|date:'MM'}}/ -->
+                        </span>
+                        <span>
+                          <!-- {{slug?.created_date|date:'yyyy'}} -->
+                        </span>
+                      </span>
+                      <h2 class="blue-zodiac">{{slug?.created_date|date:'EEEE':'medium'}}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="r-details">
+                <ng-container *ngFor="let court of slug?.courts; let courtIndex = index">
+                  <div
+                    [ngClass]="court?.court_name === 'Supreme Court' ? 'supremetitle d-flex justify-content-between' : 'title d-flex justify-content-between'">
+                    <h2 class="update-court mb-0" [innerHtml]="court.court_name | highlight: searchTerm"></h2>
+                  </div>
+
+                  <div class="p-25-new">
+                    <div class="list-court">
+                      <ul>
+                        <li *ngFor="let judgement of court?.judgements; let judgementIndex = index;">
+                          <div class="m-list">
+                            <div class="icon-title d-flex align-items-start justify-content-between ">
+                              <h4 class="cursor-pointer">
+                                <a style="color: #1d4269;" routerLink="/judegment-detail/{{judgement.id}}"
+                                  target="_blank" [innerHtml]="judgement?.sub_topic | highlight: searchTerm"
+                                  (click)="onViewDetail(judgement?.id)"></a>
+                              </h4><br>
+                            </div>
+                            <ul class="list border-0 tagsChanges "
+                              *ngIf="judgement && judgement?.categories.length > 0">
+                              <li *ngFor="let category of judgement?.categories" style="cursor: pointer;"
+                                (click)="onSlugClick(category?.slug,false)"
+                                [ngClass]="(categoryList.id==category?.id) ?'selectedCategory' : ''">
+                                {{category?.name}}</li>
+                            </ul>
+
+                            <ul class="list border-0 tagsChanges "
+                              *ngIf="judgement && judgement?.sub_topics_list.length > 0">
+                              <li style="cursor: pointer;" *ngFor="let sub_topics_list of judgement?.sub_topics_list"
+                                (click)="onSubtopicSlug(sub_topics_list.sub_topic?.slug,true)"
+                                [ngClass]="(subtopicList && subtopicList.id==sub_topics_list.subtopic_id) ?'selectedCategory' : ''">
+                                {{sub_topics_list.sub_topic?.name}}</li>
+                            </ul>
+
+                            <h5 class="mb-0" style="color: #535353;"
+                              [innerHtml]="judgement?.name | highlight: searchTerm"></h5>
+                            <div class="row">
+                              <div class="col-12 col-sm-6">
+                                <p class="textUpdate">
+                                  <i class="fa fa-pencil-square-o mr-1" aria-hidden="true"></i>
+                                  <span [innerHtml]="judgement?.judge_name | highlight: searchTerm"></span><span
+                                    class="" *ngIf="judgement?.date"> |
+                                    {{judgement?.date|date:'dd.MM.yyyy'}} </span>
+                                </p>
+
+                              </div>
+                              <div class="col-12 col-sm-6 text-right read-judgment">
+                                <a class="view-details" style="cursor: pointer; text-align: right; color: #007ad9;"
+                                  *ngIf="judgement?.document"
+                                  (click)="onViewredirectDetail(judgement?.document_url)">Read
+                                  Judgment
+                                </a>
+                              </div>
+                            </div>
+
+
+
+                            <div class="hiden-for-mobile">
+                              <div class="gry-bg">
+                                <P class="title-pera" style="margin-bottom: 5px !important;">
+                                  Case Summary
+                                </P>
+                                <p *ngIf="!judgement?.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                                  [innerHtml]="(judgement?.description | slice:0:320)+'...'| highlight: searchTerm">
+
+                                </p>
+                                <p *ngIf="judgement?.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                                  [innerHtml]="judgement?.description | highlight: searchTerm">
+                                </p>
+
+                              </div>
+
+                              <div class="link-btn d-flex justify-content-between align-items-end"
+                                *ngIf="!isSearchResults()">
+                                <a (click)="onReadMore(judgement)" style="cursor: pointer;" class="read_more">
+                                  <i class="fa fa-angle-double-down" aria-hidden="true"
+                                    *ngIf="!judgement?.showMore"></i>
+                                  <i class="fa fa-angle-double-up" aria-hidden="true" *ngIf="judgement?.showMore"></i>
+                                </a>
+                              </div>
+
+                            </div>
+
+                            <div class="row updateIcon">
+                              <div class="col-auto col-sm-6">
+
+                                <div>
+                                  <div class="social_icon d-flex">
+                                    <!-- <a (click)="commonService.onSocialSharing('twitter',judgement?.id, judgement?.sub_topic)"><i
+                                        class="fa fa-twitter"></i></a>
+                                    <a (click)="commonService.onSocialSharing('linkedin',judgement?.id, judgement?.sub_topic)"><i
+                                        class="fa fa-linkedin"></i></a>
+                                    <a (click)="commonService.onSocialSharing('facebook',judgement?.id, judgement?.sub_topic)"><i
+                                        class="fa fa-facebook"></i></a> -->
+                                    <a class="whatsapp"
+                                      (click)="commonService.onSocialSharing('whatsapp',judgement?.id, judgement?.sub_topic)"><i
+                                        class="fa fa-whatsapp"></i></a>
+
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto mob-100 col-sm-6 ml-auto" style="text-align: right;">
+                                <!-- <button class="b-sm-button-blue" *ngIf="judgement?.is_saved"
+                                  (click)="unsaveJudgement(judgement)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                  <span>
+                                    unsave <i class="fa fa-spin fa-spinner" *ngIf="judgement?.loader"></i>
+                                  </span>
+                                </button>
+                                <button class="b-sm-button-blue" *ngIf="!judgement?.is_saved"
+                                  (click)="onSave(judgement)">
+                                  <span>Save</span>
+                                </button> -->
+                                <button class="b-sm-button-blue" *ngIf="!judgement?.is_saved"
+                                  (click)="onSave(judgement,listIndex, courtIndex, judgementIndex)">
+                                  <span>Save</span>
+                                </button>
+                                <button class="b-sm-button-blue" *ngIf="judgement?.is_saved"
+                                  (click)="onSaveAgain(judgement)">
+                                  <span>Resave</span>
+                                </button>
+
+                              </div>
+                            </div>
+
+
+                          </div>
+                        </li>
+                      </ul>
+
+                    </div>
+
+                  </div>
+
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="isSearchResults()">
+            <div class="d-block d-xl-flex" *ngFor="let list of slugList?.data">
+              <div class="l-date">
+                <div class="date-day">
+                  <div class="row align-items-end">
+                    <div class="col-6 col-xl-2">
+                      <h6 class="m-gray text-left d-xl-none mb-1"><em>Case Digest</em></h6>
+                    </div>
+                    <div class="col-6 col-xl-10">
+                      <h6 class="m-gray d-none d-xl-block"><em>Case Digest</em></h6>
+                      <span>
+                        <span class="date">
+                          <!-- {{list?.created_date|date:'d'}}/ -->
+                          {{list?.created_date|date:'dd/MM/yyyy'}}
+                        </span>
+                        <span>
+                          <!-- {{list?.created_date|date:'MM'}}/ -->
+                        </span>
+                        <span>
+                          <!-- {{list?.created_date|date:'yyyy'}} -->
+                        </span>
+                      </span>
+                      <h2 class="blue-zodiac">
+                        {{list?.created_date|date:'EEEE':'medium'}}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="r-details">
+                <div
+                  [ngClass]="list?.court_name === 'Supreme Court' ? 'supremetitle d-flex justify-content-between' : 'title d-flex justify-content-between'">
+                  <h2 class="update-court mb-0" [innerHtml]="list.court_name | highlight: searchTerm"></h2>
+                </div>
+
+
+                <div class="p-25-new">
+                  <div class="list-court">
+                    <ul>
+                      <li>
+                        <div class="m-list">
+                          <div class="icon-title d-flex align-items-start justify-content-between ">
+                            <h4 class="cursor-pointer">
+                              <a style="color: #1d4269;" routerLink="/judegment-detail/{{list.id}}" target="_blank"
+                                [innerHtml]="list?.sub_topic | highlight: searchTerm"
+                                (click)="onViewDetail(list?.id)"></a>
+                            </h4><br>
+                          </div>
+                          <ul class="list border-0 tagsChanges " *ngIf="list && list?.categories.length > 0">
+                            <li style="cursor: pointer;" *ngFor="let category of list.categories"
+                              (click)="onSlugClick(category?.slug,false)">{{category?.name}}</li>
+                          </ul>
+                          <ul class="list border-0 tagsChanges " *ngIf="list && list?.sub_topics_list.length > 0">
+                            <li style="cursor: pointer;" *ngFor="let sub_topics_list of list?.sub_topics_list"
+                              (click)="onSubtopicSlug(sub_topics_list.sub_topic?.slug,true)"
+                              [ngClass]="(subtopicList && subtopicList.id==sub_topics_list.subtopic_id) ?'selectedCategory' : ''">
+                              {{sub_topics_list.sub_topic?.name}}</li>
+                          </ul>
+                          <h5 class="mb-0" [innerHtml]="list?.name | highlight: searchTerm" style="color: #535353;">
+                          </h5>
+                          <div class="row">
+                            <div class="col-12 col-sm-6">
+                              <p class="textUpdate">
+                                <i class="fa fa-pencil-square-o mr-1" aria-hidden="true"></i>
+                                <span [innerHtml]="list?.judge_name | highlight: searchTerm">
+                                </span>
+                                <span *ngIf="list?.date"> |
+                                  {{list?.date|date:'dd.MM.yyyy'}}
+                                </span>
+                              </p>
+                            </div>
+                            <div class="col-12 col-sm-6 text-right read-judgment">
+                              <a class="view-details" style="cursor: pointer; text-align: right; color: #007ad9;"
+                                *ngIf="list?.document" [routerLink]=""
+                                (click)="onViewredirectDetail(list?.document_url)">Read
+                                Judgment</a>
+                            </div>
+                          </div>
+
+                          <div class="hiden-for-mobile">
+
+                            <div class="gry-bg">
+                              <P class="title-pera" style="margin-bottom: 5px !important;">
+                                Case Summary
+                              </P>
+                              <p *ngIf="!list.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                                [innerHtml]="(list?.description | slice:0:320)+'...' | highlight: searchTerm">
+                              </p>
+                              <p *ngIf="list.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                                [innerHtml]="list?.description | highlight: searchTerm">
+                              </p>
+
+                            </div>
+
+
+                            <div class="link-btn d-flex justify-content-between align-items-end"
+                              *ngIf="isSearchResults()">
+                              <a (click)="onReadMore(list)" style="cursor: pointer;" class="read_more">
+                                <i class="fa fa-angle-double-down" aria-hidden="true" *ngIf="!list.showMore"></i>
+                                <i class="fa fa-angle-double-up" aria-hidden="true" *ngIf="list.showMore"></i>
+                              </a>
+                            </div>
+
+                          </div>
+
+                          <div class="row updateIcon">
+                            <div class="col-auto col-sm-6">
+
+                              <div>
+                                <div class="social_icon d-flex">
+                                  <!-- <a class="twitter" (click)="commonService.onSocialSharing('twitter',list.id, list?.sub_topic)"><i
+                                      class="fa fa-twitter"></i></a>
+                                  <a class="linkedin" (click)="commonService.onSocialSharing('linkedin',list.id, list?.sub_topic)"><i
+                                      class="fa fa-linkedin"></i></a>
+                                  <a class="facebook" (click)="commonService.onSocialSharing('facebook',list.id, list?.sub_topic)"><i
+                                      class="fa fa-facebook"></i></a> -->
+                                  <a class="whatsapp"
+                                    (click)="commonService.onSocialSharing('whatsapp',list.id, list?.sub_topic)"><i
+                                      class="fa fa-whatsapp"></i></a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-auto mob-100 col-sm-6 ml-auto" style="text-align: right;">
+                              <!-- <button class="b-sm-button-blue" *ngIf="list?.is_saved" (click)="unsaveJudgement(list)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <span>
+                                  Unsave <i class="fa fa-spin fa-spinner" *ngIf="list?.loader"></i>
+                                </span>
+                              </button>
+                              <button class="b-sm-button-blue" *ngIf="!list?.is_saved" (click)="onSave(list)">
+                                <span>Save</span>
+                              </button> -->
+                              <button class="b-sm-button-blue" *ngIf="!list?.is_saved" (click)="onSave(list)">
+                                <span>Save</span>
+                              </button>
+                              <button class="b-sm-button-blue" *ngIf="list?.is_saved" (click)="onSaveAgain(list)">
+                                <span>Resave</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <div class="load-more" *ngIf="nextPage != null && !dataNotFound">
+          <a class="load_more" style="cursor: pointer;" (click)="onLoadData()">Load more</a>
+        </div>
+
+        <div class="get-daily">
+          <div class="r-details nw-update">
+            <p>
+              Receive daily summaries of judgments<br> straight to your inbox
+            </p>
+            <div class="email-box d-flex">
+              <input type="text" name="email" class="d-input" placeholder="Enter your email" [(ngModel)]="email"
+                (keydown.enter)="onSubscribe()" placeholder="Search by exact phrase">
+              <button style="cursor: pointer;" class="r-button" (click)="onSubscribe()"
+                [disabled]="email==='' || email === undefined">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 custom-xl-3 d-none d-xl-block">
+        <div class="calender-details">
+          <h5>Search Digest by Date</h5>
+          <div class="calender">
+            <p-calendar [(ngModel)]="date" [showButtonBar]="true" todayButtonStyleClass="d-none" [inline]="true"
+              (onSelect)="onDateChange($event)" (onClearClick)="clearDate($event)">
+            </p-calendar>
+          </div>
+          <h5>Search by Topics</h5>
+          <div class="hastags">
+            <ul>
+              <li style="cursor: pointer;" *ngFor="let hash of hashList" [ngClass]="{'active': topicId === hash?.slug}"
+                (click)="onTopicSelect(hash?.slug,false)">
+                <a>{{hash?.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

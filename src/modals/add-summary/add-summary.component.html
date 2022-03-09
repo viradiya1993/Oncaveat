@@ -1,0 +1,162 @@
+<!-- Add Popup -->
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="main-details">
+    <h2>Save to My Casebook</h2>
+    <form #f="ngForm">
+      <div class="row">
+        <div class="input col-12">
+          <label>Proposition</label>
+          <!-- <textarea type="text" style="height: 60px;" class="d-input" placeholder="Enter topic or subject" name="title"
+            [elementFocusDir]="true" #title="ngModel" [(ngModel)]="addData.sub_topic" [ngClass]="{
+              'is-invalid': title.invalid && (title.dirty || title.touched)
+            }" required>
+          </textarea> -->
+
+          <textarea type="text" style="height: 60px;" class="d-input" placeholder="Enter topic or subject" name="title"
+            [elementFocusDir]="true" #title="ngModel" [(ngModel)]="addData.title" [ngClass]="{
+              'is-invalid': title.invalid && (title.dirty || title.touched)
+            }" required>
+          </textarea>
+
+          <div *ngIf="title.invalid" class="invalid-feedback">
+            <div *ngIf="title.invalid && (title.dirty || title.touched)">
+              Proposition is required
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="input col-12">
+          <label>Case Title</label>
+          <input type="text" class="d-input" placeholder="Enter Case Title" name="judgment_title" #judgment_title="ngModel" [(ngModel)]="addData.judgment_title" autocomplete="off"
+          [ngClass]="{
+            'is-invalid': judgment_title.invalid && (judgment_title.dirty || judgment_title.touched)
+          }" required>
+          <div *ngIf="judgment_title.invalid" class="invalid-feedback">
+            <div *ngIf="judgment_title.invalid && (judgment_title.dirty || judgment_title.touched)">
+              Case Title is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input col-12">
+          <label>Citation/Judge Name (Optional)</label>
+          <input type="text" class="d-input" placeholder="Enter Citation/Judge Name" name="judge_name" #judge_name="ngModel" [(ngModel)]="addData.judge_name" autocomplete="off"
+          [ngClass]="{
+            'is-invalid': judge_name.invalid && (judge_name.dirty || judge_name.touched)
+          }" >
+          <div *ngIf="judge_name.invalid" class="invalid-feedback">
+            <div *ngIf="judge_name.invalid && (judge_name.dirty || judge_name.touched)">
+              Citation/Judge Name required
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="title-fill" style="text-align: center;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters</h4>
+      <div class="row">
+        <div class="input col-12">
+          <label>Choose Topic</label>
+          <angular2-multiselect
+                [data]="hashList"
+                [(ngModel)]="addData.topics"
+                name="topics"
+                #topics="ngModel"
+                [settings]="dropdownSettings"
+                (onAddFilterNewItem)="onAddTopic($event, f)"
+                (onSelect)="onItemSelect($event, f)"
+                (onDeSelect)="onItemDeSelect($event, f)"
+                #topicDropdownRef  [ngClass]="{
+                  'is-invalid':
+                  topics.invalid && (topics.dirty || topics.touched)
+                }" required>
+          </angular2-multiselect>
+
+
+          <div style="margin-top: 10px !important;" *ngIf="topics.invalid" class="invalid-feedback">
+            <div *ngIf="topics.invalid">
+              Topic is required
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="input col-12">
+          <label>Choose Sub Topic</label>
+          <angular2-multiselect
+            [data]="subTopicList"
+            [(ngModel)]="addData.selectedsubtopics"
+            [settings]="dropdownSettingTopic"
+            name="subtopic_list"
+            #subtopic_list="ngModel"
+            (onAddFilterNewItem)="onAddSubTopic($event, f)"
+            (onSelect)="onSubItemSelectList($event,f)"
+            (onDeSelect)="onSubItemDeSelect($event,f)"
+            #subTopicDropdownRef  [ngClass]="{
+              'is-invalid':
+              subtopic_list.invalid && (subtopic_list.dirty || subtopic_list.touched)
+            }" required>
+         </angular2-multiselect>
+
+          <div style="margin-top: 10px !important;" *ngIf="subtopic_list.invalid" class="invalid-feedback">
+            <div *ngIf="subtopic_list.invalid ">
+              Sub Topic is required
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <label style="font-size:14px" class="pl-3 mt-3" (click)="subsubshow()">
+            <b style="cursor: pointer;">
+                <i class="fa fa-plus-circle" aria-hidden="true" *ngIf="!showsubsub"></i>
+                <i class="fa fa-minus-circle" aria-hidden="true" *ngIf="showsubsub"></i> Add another filter
+            </b>
+        </label>
+        <div class="input col-12" *ngIf="showsubsub">
+          <angular2-multiselect
+            [data]="subsubTopicList"
+            [(ngModel)]="addData.subsubtopic"
+            [settings]="dropdownSettingsubsubTopic"
+            name="section"
+            #section="ngModel"
+            (onAddFilterNewItem)="onAddSubSubTopic($event, f)"
+            (onSelect)="onSubSubItemSelectList($event,f)"
+            (onDeSelect)="onSubSubItemDeSelect($event,f)"
+            #subsubTopicDropdownRef  [ngClass]="{
+              'is-invalid':
+              section.invalid && (section.dirty || section.touched)
+            }" >
+         </angular2-multiselect>
+
+         <div style="margin-top: 10px !important;" *ngIf="section.invalid" class="invalid-feedback">
+          <div *ngIf="section.invalid">
+            Sub Sub Topic is required
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="login-details">
+        <a tabindex="1" style="cursor: pointer;" class="submit-btn" (click)="onSave(f)">Save
+          <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+        </a>
+
+      </div>
+      <!-- <div class="login-details">
+        <a tabindex="1" style="cursor: pointer;" class="submit-btn" (click)="unsaveJudgement(f)">Savenew
+          <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+        </a>
+      </div> -->
+    </form>
+  </div>
+</div>

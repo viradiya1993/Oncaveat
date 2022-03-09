@@ -1,0 +1,138 @@
+<!-- <ng-template #modalBox let-modal> -->
+<div class="modal-header pb-0">
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="closeModal()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="main-details" *ngIf="socialLoginLoader">
+    <h2>
+      <i class="fa fa-2x fa-spin fa-spinner"></i>
+    </h2>
+  </div>
+  <div class="main-details" *ngIf="!socialLoginLoader">
+    <h2 class="t-upper">
+      <!-- Welcome to Oncaveat.Com -->
+      Welcome to oncaveat.com
+    </h2>
+    <p>
+      Sign in to save judgments to your personal Casebook
+    </p>
+    <div class="continue continue-with">
+      <span>CONTINUE WITH</span>
+    </div>
+    <div class="google-btn btn-grp">
+      <a (click)="socialLogin('facebook')" class="facebook cursor-pointer"
+      ><img src="assets/images/facebook.png" alt="facebook" />Facebook</a
+    >
+    <a (click)="socialLogin('gmail')" class="google cursor-pointer">
+      <img src="assets/images/google-signin-dark.png" alt="google" />
+    </a>
+    </div>
+    <div class="combo-btn btn-grp">
+
+      <!-- <a href="#" class="twitter cursor-pointer" (click)="twitterLogin()"><img src="assets/images/twitter.png" alt="twitter" />Twitter</a> -->
+    </div>
+    <div class="continue">
+      <span class="or">Or</span>
+    </div>
+    <div class="login-details" *ngIf="isVerifed">
+      <form #f="ngForm">
+        <input
+          type="text"
+          class="form-control d-input"
+          placeholder="Enter your email address"
+          name="email"
+          #email="ngModel"
+          [elementFocusDir]="true"
+          [(ngModel)]="signInData.email"
+          [ngClass]="{
+            'is-invalid': email.invalid && (email.dirty)
+          }"
+          required
+        />
+        <div *ngIf="email.invalid" class="invalid-feedback">
+          <div *ngIf="email.invalid && (email.dirty)">
+            <div *ngIf="email.errors.required">Email is required</div>
+          </div>
+        </div>
+        <input
+          type="password"
+          class="form-control d-input"
+          placeholder="Enter your Password"
+          name="password"
+          [(ngModel)]="signInData.password"
+          #password="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              password.invalid && (password.dirty)
+          }"
+          required
+        />
+        <!-- <div *ngIf="password.invalid || submitted" class="invalid-feedback">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)">
+          Password is required
+          </div>
+        </div> -->
+        <div *ngIf="password.invalid" class="invalid-feedback">
+          <div *ngIf="password.invalid && (password.dirty)">
+          Password is required
+          </div>
+        </div>
+        <a (click)="onSignIn(f)" class="submit-btn" style="cursor: pointer">
+          Sign IN
+          <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+        </a>
+      </form>
+    </div>
+
+    <!-- For Resend verfication -->
+    <div class="login-details" *ngIf="!isVerifed">
+      <form #f="ngForm">
+        <input
+          type="email"
+          class="d-input"
+          placeholder="Enter your email address"
+          name="email"
+          #email="ngModel"
+          [(ngModel)]="resendEmail"
+          [ngClass]="{
+            'is-invalid': email.invalid && (email.dirty || email.touched)
+          }"
+          required
+        />
+        <div *ngIf="email.invalid" class="invalid-feedback d-block">
+          <div *ngIf="email.invalid && (email.dirty || email.touched)">
+          Email is required
+          </div>
+        </div>
+        <a (click)="onResend(f)" class="submit-btn">Resend Link</a>
+      </form>
+    </div>
+    <!-- <span>
+      By clicking Sign in, you agree to our <a [routerLink]="['/terms']">Terms</a><br />
+      and have read and acknowledge our <a [routerLink]="['/privacy']">Privacy Statement.</a>
+    </span> -->
+    <span class="f-pass">
+      Forgot password?<a href="#" data-toggle="modal" (click)="openForgotPasswordModal()" class="sign-in" > Click here </a
+      >
+    </span>
+    <span class="s-up"
+      >New User?
+      <a
+        (click)="openSignUpModal()"
+        data-toggle="modal"
+        href="#"
+        class="sign-in"
+        >Sign up</a
+      ></span
+    >
+  </div>
+</div>
+<!-- </ng-template> -->

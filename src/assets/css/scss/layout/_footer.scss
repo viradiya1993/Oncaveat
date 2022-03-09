@@ -1,0 +1,107 @@
+footer {
+  background-color: $royal-blue;
+  padding: 80px 0px 40px 0px;
+  .e-box {
+    align-items: flex-end;
+    margin-bottom: 70px;
+    @media #{$breakpoint-lg-tablet} {
+      margin-bottom: 30px;
+    }
+    @media #{$breakpoint-mob} {
+      flex-direction: column;
+    }
+    span {
+      color: $white;
+      font-size: 40px;
+      display: block;
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: 600;
+      @media #{$breakpoint-d-small} {
+        font-size: 28px;
+      }
+      @media #{$breakpoint-mob} {
+        font-size: 22px;
+      }
+    }
+    div {
+      width: 100%;
+    }
+    .e-input {
+      padding: 14px 20px;
+      border-radius: 7px;
+      border: 1px solid #eee;
+      margin-right: 15px;
+      width: 100%;
+      color: $light-grayish-blue;
+      outline: none;
+      box-shadow: none;
+      font-size: 14px;
+      @media #{$breakpoint-mob} {
+        text-align: center;
+      }
+    }
+    .r-button {
+      padding: 6px 20px;
+      margin-left: 15px;
+      @media #{$breakpoint-mob} {
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+    }
+  }
+  ul {
+    justify-content: center;
+    display: flex;
+    max-width: 90%;
+    margin: 0 auto;
+    padding-top: 40px;
+    border-top: 1px solid $title-light;
+    li {
+      float: left;
+      padding: 0px 50px;
+      position: relative;
+      a {
+        color: $white;
+        font-size: 15px;
+        &:hover {
+          color: $galaxy-blue;
+        }
+      }
+      @media #{$breakpoint-d-small} {
+        padding: 0 30px;
+      }
+      @media #{$breakpoint-lg-tablet} {
+        padding: 0px;
+        font-size: 22px;
+      }
+      &:before {
+        content: "";
+        left: 0;
+        width: 1px;
+        top: 50%;
+        height: 16px;
+        position: absolute;
+        background-color: $galaxy-lite-blue;
+        transform: translate(-50%, -50%);
+      }
+      &:first-child:before {
+        content: none;
+      }
+      @media #{$breakpoint-lg-tablet} {
+        &:before {
+          content: none;
+        }
+      }
+    }
+    @media #{$breakpoint-lg-tablet} {
+      flex-direction: column;
+      max-width: 100%;
+      padding-top: 30px;
+      text-align: center;
+    }
+  }
+  @media #{$breakpoint-lg-tablet} {
+    padding: 40px 0px 20px 0px;
+  }
+}

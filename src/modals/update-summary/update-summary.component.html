@@ -1,0 +1,138 @@
+<!-- <ng-template #modalBox  let-modal> -->
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="main-details">
+    <h2>Save to My Casebook</h2>
+    <form #f="ngForm">
+      <div class="row">
+        <div class="input col-12">
+          <label>Proposition</label>
+          <textarea style="height: 60px;" class="d-input" placeholder="Enter topic or subject" name="title"
+            #title="ngModel" [elementFocusDir]="true" [(ngModel)]="updateData.sub_topic" [ngClass]="{
+              'is-invalid': title.invalid && (title.dirty || title.touched)
+            }" required></textarea>
+          <div *ngIf="title.invalid" class="invalid-feedback">
+            <div *ngIf="title.invalid && (title.dirty || title.touched)">
+              Proposition is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="title-fill" style="text-align: center;"><i class="fa fa-sliders" aria-hidden="true"></i> Filters</h4>
+      <div class="row">
+        <div class="input col-12">
+          <div>
+            <label>Choose Topic</label>
+            <angular2-multiselect
+              [data]="hashList"
+              [(ngModel)]="updateData.topics"
+              name="subject"
+              #subject="ngModel"
+              [settings]="dropdownSettingsTopic"
+              (onAddFilterNewItem)="onAddTopic($event, f)"
+              (onSelect)="onItemSelect($event, f)"
+              (onDeSelect)="onItemDeSelect($event, f)"
+              #topicDropdownRef [ngClass]="{
+                'is-invalid':
+                  subject.invalid && (subject.dirty || subject.touched)
+              }" required>
+            </angular2-multiselect>
+          </div>
+          <div style="margin-top: 10px !important;" *ngIf="subject.invalid" class="invalid-feedback">
+            <div *ngIf="subject.invalid">
+              Topic is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Spinner -->
+        <i class="fa fa-spin fa-spinner" *ngIf="loader"></i>
+      <!-- Spinner -->
+      <div class="row">
+        <div class="input col-12">
+          <div>
+            <label>Choose Sub Topic</label>
+            <angular2-multiselect
+               [data]="subTopicList"
+               [(ngModel)]="updateData.selectedsubtopics"
+               name="subtopic_list"
+               #subtopic_list="ngModel"
+               [settings]="dropdownSettingSubTopic"
+               (onAddFilterNewItem)="onAddSubTopic($event, f)"
+               (onSelect)="onSubItemSelect($event,f)"
+               (onDeSelect)="onSubItemDeSelect($event,f)"
+               #subTopicDropdownRef [ngClass]="{
+                'is-invalid':
+                  subtopic_list.invalid && (subtopic_list.dirty || subtopic_list.touched)
+              }" required>
+            </angular2-multiselect>
+          </div>
+          <div style="margin-top: 10px !important;" *ngIf="subtopic_list.invalid" class="invalid-feedback">
+            <div *ngIf="subtopic_list.invalid">
+              Sub Topic is required
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <label (click)="subsubshow()" style="font-size:14px" class="pl-3 mt-3">
+          <b style="cursor: pointer;">
+            <i class="fa fa-plus-circle" aria-hidden="true" *ngIf="!showsubsub"></i>
+            <i class="fa fa-minus-circle" aria-hidden="true" *ngIf="showsubsub"></i> Add another filter
+          </b>
+        </label>
+        <div class="input col-12" *ngIf=showsubsub>
+          <!-- <label>Create Sub - Sub Topic</label> -->
+          <!-- <ng-select [items]="subsubTopicList" bindLabel="name" bindValue="id" [addTag]="addCustomSubSubTopic" name="section"
+            placeholder="Select Sub sub Topic" [(ngModel)]="updateData.selectedsubsubtopics" required [ngClass]="{
+              'is-invalid':
+                section.invalid && (section.dirty || section.touched)
+            }">
+          </ng-select> -->
+          <angular2-multiselect
+            [data]="subsubTopicList"
+            [(ngModel)]="updateData.selectedsubsubtopics"
+            name="section"
+            #section="ngModel"
+            [settings]="dropdownSettingSubSubTopic"
+            (onAddFilterNewItem)="onAddSubSubTopic($event, f)"
+            (onSelect)="onSubSubItemSelect($event, f)"
+            (onDeSelect)="onSubSubItemDeSelect($event)"
+            #subSubTopicDropdownRef [ngClass]="{
+                'is-invalid':
+                  section.invalid && (section.dirty || section.touched)
+              }" >
+            </angular2-multiselect>
+          <div style="margin-top: 10px !important;" *ngIf="section.invalid" class="invalid-feedback">
+            <div *ngIf="section.invalid">
+              Sub Sub Topic is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="login-details col-12">
+          <a tabindex="1" style="cursor: pointer;" class="submit-btn" (click)="onSave(f)">Save</a>
+          <!-- <a href="#" class="submit-btn" >Update</a> -->
+        </div>
+        <!-- <div class="login-details col-12" *ngIf="dataUpdate?.is_saved">
+          <a tabindex="1" style="cursor: pointer;" class="submit-btn" (click)="duplicateSaveJudgement(f)">Save111</a>
+        </div> -->
+      </div>
+    </form>
+    <!-- <ng-select [items]="subsubTopicList" bindLabel="name" bindValue="id" [addTag]="addCustomSubSubTopic" name="section"
+            placeholder="Select Sub sub Topic" [(ngModel)]="updateData.selectedsubsubtopics" required [ngClass]="{
+              'is-invalid':
+                section.invalid && (section.dirty || section.touched)
+            }">
+          </ng-select> -->
+  </div>
+</div>
+<!-- </ng-template> -->

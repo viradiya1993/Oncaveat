@@ -1,0 +1,244 @@
+<section class="email-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 col-md-12">
+        <div class="left">
+          <h1>A new way to stay legally informed </h1>
+          <p>
+            Don’t have time to keep up with the latest judgments? Don’t worry. <br> We’re doing the hard work to help
+            you.
+          </p>
+          <ul class="pl-3">
+            <li>Read concise summaries of important civil cases of the Supreme Court and the Delhi High Court, all for
+              free.</li>
+            <li>Save and organize judgments in your personal Casebook.</li>
+            <li>Search and revisit cases at your convenience.</li>
+            <li>Receive summaries straight to your inbox. </li>
+          </ul>
+          <div class="email-box d-flex" id="destination">
+            <input type="email" name="email" class="e-input" placeholder="Enter your email" [(ngModel)]="email"
+              (keydown.enter)="onSubscribe()">
+            <button class="r-button" style="cursor: pointer;" (click)="onSubscribe()"
+              [disabled]="email==='' || email === undefined">Subscribe</button>
+          </div>
+          <div class="info_subs">
+            <span><span class="d-block d-md-inline m-0">Not sure if you should subscribe?</span> Read <a
+                href="javascript:void(0)" (click)="onNextSearchTest()">testimonials</a>. </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-12">
+        <div class="d-none d-lg-block">
+          <h2 class="right-h2 mt-5 mt-md-0 mb-0 mb-lg-4 text-right">Case Digest</h2>
+          <div class="right">
+            <div class="date-day">
+              <ng-container *ngIf="todayDigestDate.judgments_date">
+                <span>
+                  <span class="">
+                    {{todayDigestDate.judgments_date |date:'dd'}}/
+                  </span>
+                  <span>
+                    {{todayDigestDate.judgments_date |date:'MM'}}/
+                  </span>
+                  <span>
+                    {{todayDigestDate.judgments_date |date:'yyyy'}}
+                  </span>
+                </span>
+                <h2>
+                  {{todayDigestDate.judgments_date |date:'EEEE'}}
+                </h2>
+              </ng-container>
+            </div>
+            <div class="list-court">
+              <ul>
+                <li *ngFor="let todayDigest of getKeys(todayDigestList)">
+                  <div class="m-list">
+                    <div [ngClass]="todayDigest === 'Supreme Court' ? 'supremecourttitle' : 'highcourttitle'">
+                      <h5 style="text-transform: uppercase;">{{todayDigest}}</h5>
+                    </div>
+                    <div class="icon-title">
+                      <ul style="color: black;" *ngFor="let data of todayDigestList[todayDigest]">
+                        <li (click)="onViewDetail(data?.id)" class="cursor-pointer">
+                          <span style="font-size: 15px;">{{data?.name}}</span>
+                        </li>
+                        <li><span style="font-size: 13px;">{{data?.judge_name}}</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+              <div class="bottom-btn text-center">
+                <a class="b-lg-button" [routerLink]="['/caselaws']" *ngIf="todayDigestList.length != 0"><span>View
+                    more</span></a>
+                <a class="b-lg-button" *ngIf="todayDigestList.length === 0"><span>No Record Found..</span></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<section class="find-days sky-blue">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="text-center">What we offer </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="f-list d-flex" style="cursor: pointer;" (click)="onNextSearchPosition()">
+          <div class="icon">
+            <img src="assets/images/message.png" alt="message" />
+          </div>
+          <div class="details">
+            <h4 class="blue-zodiac">Newsletter </h4>
+            <p>We are famous for our newsletter, that’s how we started. Stop missing out and subscribe.<a
+                style="color: #007ad9;" (click)="onClickNewsLetter()"><br>Click here</a> to see our sample newsletter.
+            </p>
+            <!-- href="https://ded3138.inmotionhosting.com/~projectdemoserve/oncaveat/public/media/newsletter.html"
+                target="_blank" -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-12" *ngIf="AuthService1.isAuthenticated()">
+        <div class="f-list d-flex" style="cursor: pointer;" [routerLink]="'/casebook'">
+          <div class="icon">
+            <img src="assets/images/book.png" alt="message" />
+          </div>
+          <div class="details">
+            <h4 class="blue-zodiac">Casebook</h4>
+            <p>Came across a judgment you read but couldn’t find it later? With OnCaveat, you can instantly save what
+              you read in your personal ‘Casebook’. <a routerLink="/casebook-new"><br> Click here</a> to learn more.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-4 col-md-12" *ngIf="!AuthService1.isAuthenticated()">
+        <div class="f-list d-flex" style="cursor: pointer;" [routerLink]="'/casebook-new'">
+          <div class="icon">
+            <img src="assets/images/book.png" alt="message" />
+          </div>
+          <div class="details">
+            <h4 class="blue-zodiac">Casebook</h4>
+            <p>Came across a judgment you read but couldn’t find it later? With OnCaveat, you can instantly save what
+              you read in your personal ‘Casebook’. <a routerLink="/casebook-new"><br> Click here</a> to learn more.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-12">
+        <div class="f-list d-flex cursor-pointer" routerLink="/caselaws">
+          <div class="icon">
+            <img src="assets/images/search.png" alt="message" />
+          </div>
+          <div class="details">
+            <h4 class="blue-zodiac">Search</h4>
+            <p>Search from our judgment database (Aug, 2020 onwards). Filter searches by topics and subjects of your
+              choice. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="search-by-box">
+      <div class="search-by-title">
+        <h2 class="text-center">Search and Filter by Topics</h2>
+      </div>
+      <div class="search-box">
+
+      </div>
+      <div class="search-list">
+        <div class="listing d-flex">
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('arbitration')">
+            <img src="assets/images/arbitration.png" alt="Arbitration" />
+            <span>Arbitration</span>
+          </div>
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('code-of-civil-procedure')">
+            <!-- <img src="assets/images/cpc.png" alt="insolvency" /> -->
+            <img src="assets/images/laws.png" alt="Insurance" />
+            <span>Civil Procedure</span>
+          </div>
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('constitution')">
+            <img src="assets/images/ipr.png" alt="IPR" />
+            <span>Constitution</span>
+          </div>
+        </div>
+
+        <div class="listing d-flex">
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('insolvency')">
+            <img src="assets/images/insolvency.png" alt="Innsolvency" />
+            <span>Insolvency</span>
+          </div>
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('service-law')">
+            <!-- <img src="assets/images/laws.png" alt="Insurance" /> -->
+            <img src="assets/images/cpc.png" alt="insolvency" />
+            <span>Service Law</span>
+          </div>
+
+          <div class="list d-flex align-items-center cursor-pointer" (click)="onSlugClick('Trademark')">
+            <img src="assets/images/insurance.png" alt="Laws" />
+            <span>Trademark</span>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="bottom-btn text-center">
+          <a class="b-lg-button" [routerLink]="['/caselaws']">
+            <span>Start Reading</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slider-section" id="testimon">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="title">
+          <h2 id="newtest" class="text-center blue-zodiac">See what others have to say about us </h2>
+        </div>
+        <div>
+          <div class="row">
+            <div class="col-md-12">
+              <owl-carousel [options]="carouselOptions" [items]="slideData"
+                [carouselClasses]="['owl-theme', 'col-md-12', 'sliding', 'lawyers-slider']">
+                <div class="item" *ngFor="let data of slideData;let i= index">
+                  <div class="p-section">
+                    <div>
+                      <img src="assets/images/quote.png" class="quote" alt="quote" style="width: 10%" />
+                      <p>
+                        {{data.description}}
+                      </p>
+                      <h4 class="text-center">{{data.title}}</h4>
+                      <h4 class="text-center">{{data.author_name}} </h4>
+                    </div>
+                  </div>
+                </div>
+              </owl-carousel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

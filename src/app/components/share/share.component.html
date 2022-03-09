@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-left py-5">
+            <div class="about_us">
+                <div class="r-details row">
+
+                    <div class="col-sm-12 col-md-8">
+                        <h2 class="mb-3 p-1">Know anyone who might like us?</h2>
+                        <p class="p-2">Share to let them know you thought of them</p>
+                        <p class="align-items-center d-flex flex-wrap">
+                            <img src="assets/images/clapping.png" class="clap mr-3" alt="clap" height="32px;"/>-Thanks for taking out time to share!</p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
+                        <h2>&nbsp;</h2>
+                        <div class="m-3 text-center">
+                            <button class="col-12 share-button-facebook">
+                                <i class="fa fa-facebook"></i> &nbsp; &nbsp;
+                                <span (click)="commonService.onSocialSharingWithoutId('facebook')" class="text-center">Share On Facebook</span>
+                            </button>
+                        </div>
+
+                        <div class="m-3 text-center">
+                            <button class="col-12 share-button">
+                                <i class="fa fa-twitter"></i> &nbsp; &nbsp;
+                                <span (click)="commonService.onSocialSharingWithoutId('twitter')">Tweet To Followers</span>
+                            </button>
+                        </div>
+                        <div class="m-3 text-center">
+                            <button class="col-12 share-button text-center">
+                                <i class="fa fa-linkedin"></i> &nbsp; &nbsp;
+                                <span (click)="commonService.onSocialSharingWithoutId('linkedin')">Share On LinkedIn</span>
+                            </button>
+                        </div>
+                        <div class="m-3">
+                            <button class="col-12 share-button">
+                                <i class="fa fa-whatsapp"></i> &nbsp; &nbsp;
+                                <span (click)="commonService.onSocialSharingWithoutId('whatsapp')" class="text-center">Share On Whatsapp</span>
+                            </button>
+                        </div>
+                        <div class="m-3 text-center">
+                            <button class="col-12 share-button">
+                                <i class="fa fa-link"></i> &nbsp; &nbsp;
+                                <span (click)="copyText()">Copy Link</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

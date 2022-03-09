@@ -1,0 +1,10 @@
+.is-invalid {
+  border-color: $d-red;
+}
+.invalid-feedback {
+  display: table-cell !important;
+  width: 32%;
+  margin-top: 0.25rem;
+  font-size: 70%;
+  color: #dc3545;
+}

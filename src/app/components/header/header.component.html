@@ -1,0 +1,72 @@
+<header [class.containerCustom]="isCaselawPage()">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div (clickOutside)="onClickedOutside($event)"
+          class="header-inner d-flex justify-content-between align-items-center">
+          <div class="toggle-bar " (click)="openMenu()" [ngClass]="commonService.isMobileMenuDisplay() ? 'active' : ''">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo" routerLink="/" style="cursor: pointer;">
+            <a title="logo">
+              <img src="assets/images/logo.png" alt="logo" />
+            </a>
+            <span class="beta">
+              <i>[Beta]</i>
+            </span>
+          </div>
+          <div class=" menu d-flex align-items-center">
+            <a class="d-block d-lg-none mobile-searchbar-btn" (click)="onSearchIconClick()" *ngIf="router.url != '/' &&
+                      router.url !='/share' &&
+                      router.url != '/terms' &&
+                      router.url != '/about' &&
+                      router.url != '/privacy_policy' &&
+                      router.url != '/guideline' &&
+                      router.url != '/change-password' &&
+                      router.url != '/my-account' &&
+                      router.url != '/casebook-new' &&
+                      router.url != '/judegment-detail/'+judgementId"><span class="fa fa-search"></span></a>
+
+            <nav [ngClass]="commonService.isMobileMenuDisplay() ? 'active' : ''">
+              <ul class="d-flex align-items-center">
+
+                <li [ngClass]="{'active': router.url == '/'}"><a routerLink="/">Home</a></li>
+
+                <li [ngClass]="{'active': router.url == '/caselaws'}"><a routerLink="/caselaws"
+                    (click)="oncashLaw();">Case Summaries </a></li>
+
+                <li [ngClass]="{'active': router.url == '/casebook' || router.url == '/casebook-new'}">
+                  <a routerLink="/casebook" (click)="onClickSavedCases()" *ngIf="AuthService1.isAuthenticated()">Saved
+                    Cases</a>
+                  <a routerLink="/casebook-new" *ngIf="!AuthService1.isAuthenticated()">Saved Cases</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                    *ngIf="AuthService1.isAuthenticated()" class="circle">
+                    {{userName}}<i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a [routerLink]="'/my-account'">My Account</a>
+                    </li>
+                    <li>
+                      <a (click)="onLogout()">Logout</a>
+                    </li>
+                  </ul>
+                </li>
+                <li data-toggle="modal" data-target="#sign-in" (click)="openSignInModal()"
+                  *ngIf="!AuthService1.isAuthenticated()">
+                  <img src="assets/images/sign-icon.png" alt="sign-in" /> Sign
+                  in
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="m-over" [ngClass]="commonService.isMobileMenuDisplay() ? 'overlay' : ''"></span>
+</header>

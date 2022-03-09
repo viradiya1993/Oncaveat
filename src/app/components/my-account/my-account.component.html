@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row" *ngIf="loader">
+    <div class="col-md-12 text-center p-5">
+      <i class="fa fa-2x fa-spin fa-spinner"></i>
+    </div>
+  </div>
+  <div class="row" *ngIf="!loader">
+    <div class="col-md-12 text-left py-5">
+      <div class="about_us">
+        <div class="r-details">
+          <h2 class="mb-3">My Account</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> First Name</label>
+                <input type="text" class="form-control" [(ngModel)]="userData.first_name">
+                <span class="text-danger" *ngIf="errors.first_name"> Invalid data.</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> Last Name</label>
+                <input type="text" class="form-control" [(ngModel)]="userData.last_name">
+                <span class="text-danger" *ngIf="errors.last_name"> Invalid data.</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> Email</label>
+                <p class="text-muted">{{ userData.email }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="b-sm-button-blue" (click)="updateUserData()">
+                <span>
+                  Update
+                  <i class="fa fa-spin fa-spinner" *ngIf="updateAccountProcess"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!loader && userData.is_change_password">
+    <div class="col-md-12 text-left py-5">
+      <div class="about_us">
+        <div class="r-details">
+          <h2 class="mb-3">Change Password</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> Current Password </label>
+                <input type="password" class="form-control" [(ngModel)]="passwordData.password">
+                <span class="text-danger" *ngIf="errors.password"> {{ errors.password }}</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> New Password</label>
+                <input type="password" class="form-control" [(ngModel)]="passwordData.new_password">
+                <span class="text-danger" *ngIf="errors.new_password"> {{ errors.new_password }}</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label> Re-Type New Password</label>
+                <input type="password" class="form-control" [(ngModel)]="passwordData.re_new_password">
+                <span class="text-danger" *ngIf="errors.re_new_password"> {{ errors.re_new_password }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="b-sm-button-blue" (click)="changePassword()">
+                <span>
+                  Change Password
+                  <i class="fa fa-spin fa-spinner" *ngIf="changePasswordProcess"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

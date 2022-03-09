@@ -1,0 +1,163 @@
+<section class="p-t-55 list-calender-wise">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="d-flex judment-update">
+
+          <div class="r-details">
+            <div
+              [ngClass]="judgementDetail?.court_name === 'Supreme Court' ? 'supremetitle d-flex justify-content-between' : 'title d-flex justify-content-between'">
+              <h2 class="update-court mb-0" *ngIf="judgementDetail && judgementDetail?.court_name">
+                {{judgementDetail?.court_name}}</h2>
+
+            </div>
+
+            <div class="p-25-new">
+
+              <div class="list-court">
+                <ul>
+                  <li>
+                    <div class="m-list" *ngIf="judgementDetail">
+
+                      <div class="icon-title d-flex justify-content-between align-items-start">
+
+                        <h4 *ngIf="judgementDetail && judgementDetail?.sub_topic" style="border:none;">
+                          {{judgementDetail?.sub_topic}}
+                        </h4>
+
+                      </div>
+                      <ul class="list tagsChanges border-0"
+                        *ngIf="judgementDetail && judgementDetail?.categories.length > 0">
+                        <li style="cursor: pointer;" *ngFor="let category of judgementDetail?.categories"
+                          (click)="onSlugClick(category?.slug,false)">{{category?.name}}</li>
+                      </ul>
+                      <ul class="list tagsChanges border-0"
+                        *ngIf="judgementDetail && judgementDetail?.sub_topics.length > 0">
+                        <li style="cursor: pointer;" *ngFor="let subtopicl of judgementDetail?.sub_topics"
+                          (click)="onSubtopicSlug(subtopicl.sub_topic?.slug,true)">
+                          {{subtopicl.sub_topic?.name}}</li>
+                      </ul>
+
+                      <h5 class="mb-0" style="color: #535353;">{{judgementDetail?.name}}</h5>
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <p class="textUpdate">
+                            <i class="fa fa-pencil-square-o mr-1" aria-hidden="true"></i>
+                            <span [innerHtml]="judgementDetail?.judge_name">
+                            </span>
+                            <span> |
+                              {{judgementDetail?.date | date:'dd.MM.yyyy'}}
+                            </span>
+                          </p>
+                        </div>
+                        <div class="col-12 col-sm-6 text-right">
+                          <a class="view-details" style="cursor: pointer; text-align: right; color: #007ad9;"
+                            *ngIf="judgementDetail?.document_url"
+                            (click)="onViewredirectDetail(judgementDetail?.document_url)">Read
+                            Judgment
+                          </a>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="gry-bg">
+                          <P class="title-pera" style="margin-bottom: 5px !important;">
+                            Case Summary
+                          </P>
+                          <p *ngIf="!judgementDetail?.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                            [innerHtml]="(judgementDetail?.description | slice:0:320)+ '....'| highlight">
+                          </p>
+                          <p *ngIf="judgementDetail?.showMore" style="font-family: 'Times New Roman', Times, serif;"
+                            [innerHtml]="judgementDetail?.description | highlight">
+                          </p>
+
+                        </div>
+                        <div class="link-btn d-flex justify-content-between align-items-end">
+                          <a (click)="onReadMore(judgementDetail)" style="cursor: pointer;" class="read_more">
+                            <i class="fa fa-angle-double-down" aria-hidden="true" *ngIf="!judgementDetail.showMore"></i>
+                            <i class="fa fa-angle-double-up" aria-hidden="true" *ngIf="judgementDetail.showMore"></i>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div class="row updateIcon">
+                        <div class="col-auto col-sm-6">
+                          <div>
+                            <div>
+                              <div class="social_icon d-flex" style="padding-top: 7px;">
+                                <!-- <a class="twitter"
+                                  (click)="commonService?.onSocialSharing('twitter',judgementDetail?.id, judgementDetail?.sub_topic)"><i
+                                    class="fa fa-twitter"></i></a>
+                                <a class="linkedin"
+                                  (click)="commonService?.onSocialSharing('linkedin',judgementDetail?.id, judgementDetail?.sub_topic)"><i
+                                    class="fa fa-linkedin"></i></a>
+                                <a class="facebook"
+                                  (click)="commonService?.onSocialSharing('facebook',judgementDetail?.id, judgementDetail?.sub_topic)"><i
+                                    class="fa fa-facebook"></i></a> -->
+                                <a class="whatsapp"
+                                  (click)="commonService?.onSocialSharing('whatsapp',judgementDetail?.id, judgementDetail?.sub_topic)"><i
+                                    class="fa fa-whatsapp"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto mob-100 col-sm-6 ml-auto" style="text-align: right;">
+                          <!-- <button class="b-sm-button-blue" *ngIf="judgementDetail && judgementDetail?.is_saved"
+                            (click)="unsaveJudgement()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            <span>
+                              unsave <i class="fa fa-spin fa-spinner" *ngIf="judgementDetail.loader"></i>
+                            </span>
+                          </button>
+                          <button class="b-sm-button-blue" *ngIf="judgementDetail && !judgementDetail?.is_saved"
+                            (click)="onSave()">
+                            <span>Save</span>
+                          </button> -->
+
+                          <!-- <button class="b-sm-button-blue" *ngIf="judgementDetail && judgementDetail?.is_saved"
+                            (click)="unsaveJudgement()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            <span>
+                              unsave <i class="fa fa-spin fa-spinner" *ngIf="judgementDetail.loader"></i>
+                            </span>
+                          </button> -->
+                          <button class="b-sm-button-blue" (click)="onSave()" *ngIf="!judgementDetail?.is_saved">
+                            <span>Save</span>
+                          </button>
+                          <button class="b-sm-button-blue" *ngIf="judgementDetail?.is_saved" (click)="onSaveAgain()">
+                            <span>Resave</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="get-daily">
+      <div class="r-details nw-update">
+        <p>
+          Receive daily summaries of judgments<br> straight to your inbox
+        </p>
+        <div class="email-box d-flex">
+          <input type="text" name="email" class="d-input" placeholder="Enter your email" [(ngModel)]="email"
+            (keydown.enter)="onSubscribe()">
+          <button class="r-button" style="cursor: pointer;" (click)="onSubscribe()"
+            [disabled]="email==='' || email === undefined">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

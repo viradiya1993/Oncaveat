@@ -1,0 +1,54 @@
+// $body-fonts : 'DINPro', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+$body-fonts : 'Roboto', sans-serif;
+
+/*color variable*/
+// $royal-blue : #122d68;
+$royal-blue : #1d4269;
+$grey-blue:#434343;
+$white : #ffffff;
+$d-red: #d61726;
+$d-gray : #464646;
+$gray : #535353;
+$alice-blue:#eceff1;
+$lite-gray : #959595;
+$m-gray :#666a70;
+// $p-blue :#003470;
+$p-blue :#1d4269;
+// $blue-zodiac : #0d264c;
+$blue-zodiac : #1d4269;
+$sky-blue :#f5f9fc;
+$light-grayish-blue:#979ea5;
+$light-grayish:#f3f3f3;
+$lavender:#e5e4e8;
+$white-smoke:#f2f2f2;
+$very-dark-gray :#252525;
+$pale-blue:#e7eef4;
+$galaxy-blue:#415786;
+$galaxy-lite-blue:#214186;
+$oxford-blue:#313a49;
+$solitude:#F0F1F2;
+$bright-grey:#90959d;
+$bright-grey-n:#434343;
+$mint-tulip:#c9e7f4;
+$black:#000000;
+// $title-bg:#ededed;
+$title-bg:#f3f3f3;
+$title-light:#70b5eb;
+$tag-list:#d9e3ef;
+$icon-bg:#a7a7a7;
+$light-blue: #007ad9;
+/*end color varible*/
+
+
+/*resposive breakpoint variable*/
+$breakpoint-mob: "only screen and (max-width : 576px)";
+$breakpoint-tablet: "only screen and (max-width : 768px)";
+$breakpoint-lg-tablet: "only screen and (max-width : 991px)";
+$breakpoint-min-tablet: "only screen and (min-width : 991px)";
+$breakpoint-d-small: "only screen and (max-width : 1192px)";
+$breakpoint-d-screen: "only screen and (min-width : 1200px)";
+$breakpoint-d-large: "only screen and (min-width : 1600px)";
+$breakpoint-min-max: "only screen and(min-width: 1192px) and (max-width: 1600px)";
+/*end breakpoint variable*/
+
